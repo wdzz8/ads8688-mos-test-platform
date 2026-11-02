@@ -9,12 +9,14 @@
 - `output/pcb1/dynamic/run_20261102_215847_036499/`：1、5、10 Hz 动态采集，每档 8,192 组，共 24,576 组有效行；每轮 DPS 输出均有 OFF 回读。
 - `demo/index.html`：无需网络即可打开的交互式演示页面；`demo/mos_data_replay.mp4` 是由真实采样生成的数据回放素材。
 - `demo/data/experiment_analysis.json`：重新读取原始 CSV 后生成的分析结果，包含经验模型、留一验证、动态周期/占空比和转移曲线 gm 趋势。
+- `demo/data/intelligent_analysis.json`：基于真实分析结果生成的 TinyMLP 探索性回归、器件画像和残差驱动的下一采样点建议；不参与硬件数据验收。
 - [初赛创新点与视频策略_20261103.md](初赛创新点与视频策略_20261103.md)：按竞赛通知的创新性、科学性、工程可行性、设计难度和 FPGA 适用度整理的初赛主线、加分项与三分钟视频结构。
 
 快速打开演示：在文件管理器中双击 `demo/index.html`。更新数据后运行：
 
 ```powershell
 python scripts/analyze_experiments.py
+python scripts/intelligent_analysis.py
 python scripts/build_demo_bundle.py
 ```
 
@@ -166,4 +168,4 @@ python scripts/analyze_fixed_vgs.py `
 构建所需10份RTL/XDC已从实际使用的相邻历史目录原样归入本项目`rtl/`和`constr/`，SHA256记录在`output/source_collection_20261102.json`。构建与仿真脚本改为读取项目内源文件；ADS8688 SPI、MCP4725 I2C/波形/回环及mos_scan仿真均通过，41项Python测试通过。批处理环境缺少`PROCESSOR_ARCHITECTURE`时需设为`AMD64`；新的自动采集器已处理该变量。
 公开仓库：[wdzz8/ads8688-mos-test-platform](https://github.com/wdzz8/ads8688-mos-test-platform)。
 
-后续实测顺序见[标定与动态下一步_20261102.md](标定与动态下一步_20261102.md)。多栅压自动采集命令为`python scripts/run_fixed_vgs_family.py --port COM3 --codes 2432 2688 2816 --build-missing`，会操作真实硬件；浏览已有结果无需重新采集。合并分析使用`python scripts/analyze_fixed_vgs_family.py <report1.json> <report2.json> ... --out-dir <analysis_dir>`。当前采集器限制为漏极电源不超过3 V、限流不超过20 mA、每点128行；报告保留实际关闭回读，不能用软件目标窗口代替独立硬件关断保护。
+后续实测顺序见[标定与动态下一步_20261102.md](标定与动态下一步_20261102.md)。多栅压自动采集命令为`python scripts/run_fixed_vgs_family.py --port COM3 --codes 2432 2688 2816 --build-missing`，会操作真实硬件；浏览已有结果无需重新采集。合并分析使用`python scripts/analyze_fixed_vgs_family.py <report1.json> <report2.json> ... --out-dir <analysis_dir>`。`scripts/intelligent_analysis.py` 会对已完成的真实 CSV 分析结果运行一个固定种子的 2-8-1 TinyMLP，并用留一误差和局部残差给出下一轮 VDS 加密建议；建议点必须重新实测，不能直接写成测量结果。当前采集器限制为漏极电源不超过3 V、限流不超过20 mA、每点128行；报告保留实际关闭回读，不能用软件目标窗口代替独立硬件关断保护。

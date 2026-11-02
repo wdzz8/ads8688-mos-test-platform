@@ -1,0 +1,276 @@
+{
+  "source": "Real PCB1 experiment_analysis.json; no synthetic measurement rows",
+  "quality_summary": {
+    "static_valid_rows": 3584,
+    "dynamic_valid_rows": 24576,
+    "transfer_points": 9
+  },
+  "device_profile": {
+    "VGS_at_1mA_V": 2.162076818448054,
+    "max_gm_mS": 13.81848901761635,
+    "profile_type": "single measured 2N7000 run; nominal current scale"
+  },
+  "tiny_mlp": {
+    "method": "2-8-1 tanh TinyMLP, deterministic NumPy gradient descent",
+    "training_rows": 28,
+    "train_RMSE_mA": 0.31903834396906744,
+    "leave_one_out_RMSE_mA": 0.4165405624573925,
+    "used_for_measurement_acceptance": false,
+    "scope": "Exploratory regression and next-point planning; accepted rows still use hardware and rule-based gates.",
+    "points": [
+      {
+        "VGS_V": 1.94109375,
+        "VDS_V": 0.1081695556640625,
+        "ID_mA": 0.07659912109381217,
+        "tiny_mlp_loo_prediction_mA": -0.010455090146702317,
+        "tiny_mlp_loo_abs_error_mA": 0.08705421124051449
+      },
+      {
+        "VGS_V": 1.94109375,
+        "VDS_V": 0.39349304199218754,
+        "ID_mA": 0.09185791015631217,
+        "tiny_mlp_loo_prediction_mA": -0.09029532886579794,
+        "tiny_mlp_loo_abs_error_mA": 0.1821532390221101
+      },
+      {
+        "VGS_V": 1.94109375,
+        "VDS_V": 0.899296875,
+        "ID_mA": 0.10101318359367895,
+        "tiny_mlp_loo_prediction_mA": -0.041035905079264356,
+        "tiny_mlp_loo_abs_error_mA": 0.1420490886729433
+      },
+      {
+        "VGS_V": 1.94109375,
+        "VDS_V": 1.4015148925781251,
+        "ID_mA": 0.09216308593762434,
+        "tiny_mlp_loo_prediction_mA": -0.008339416574649094,
+        "tiny_mlp_loo_abs_error_mA": 0.10050250251227344
+      },
+      {
+        "VGS_V": 1.94109375,
+        "VDS_V": 1.8901141357421876,
+        "ID_mA": 0.09521484375007994,
+        "tiny_mlp_loo_prediction_mA": -0.00922782994421989,
+        "tiny_mlp_loo_abs_error_mA": 0.10444267369429983
+      },
+      {
+        "VGS_V": 1.94109375,
+        "VDS_V": 2.3925006103515623,
+        "ID_mA": 0.09429931640636546,
+        "tiny_mlp_loo_prediction_mA": 0.11812242738783585,
+        "tiny_mlp_loo_abs_error_mA": 0.023823110981470386
+      },
+      {
+        "VGS_V": 1.94109375,
+        "VDS_V": 2.8952563476562503,
+        "ID_mA": 0.11230468750000888,
+        "tiny_mlp_loo_prediction_mA": 0.20298388923360938,
+        "tiny_mlp_loo_abs_error_mA": 0.0906792017336005
+      },
+      {
+        "VGS_V": 2.0443593052455356,
+        "VDS_V": 0.034412841796874996,
+        "ID_mA": 0.16677856445301842,
+        "tiny_mlp_loo_prediction_mA": 0.20462907125799878,
+        "tiny_mlp_loo_abs_error_mA": 0.037850506804980366
+      },
+      {
+        "VGS_V": 2.0443593052455356,
+        "VDS_V": 0.19200500488281252,
+        "ID_mA": 0.3086853027343128,
+        "tiny_mlp_loo_prediction_mA": 0.14601090844030917,
+        "tiny_mlp_loo_abs_error_mA": 0.16267439429400365
+      },
+      {
+        "VGS_V": 2.0443593052455356,
+        "VDS_V": 0.6736065673828125,
+        "ID_mA": 0.34530639648444605,
+        "tiny_mlp_loo_prediction_mA": 0.28024096251824726,
+        "tiny_mlp_loo_abs_error_mA": 0.0650654339661988
+      },
+      {
+        "VGS_V": 2.0443593052455356,
+        "VDS_V": 1.1693280029296875,
+        "ID_mA": 0.3520202636719816,
+        "tiny_mlp_loo_prediction_mA": 0.29506893448343113,
+        "tiny_mlp_loo_abs_error_mA": 0.05695132918855045
+      },
+      {
+        "VGS_V": 2.0443593052455356,
+        "VDS_V": 1.6543194580078127,
+        "ID_mA": 0.35903930664060724,
+        "tiny_mlp_loo_prediction_mA": 0.474116502004138,
+        "tiny_mlp_loo_abs_error_mA": 0.11507719536353078
+      },
+      {
+        "VGS_V": 2.0443593052455356,
+        "VDS_V": 2.15390625,
+        "ID_mA": 0.3562927246094638,
+        "tiny_mlp_loo_prediction_mA": 0.5700162774398777,
+        "tiny_mlp_loo_abs_error_mA": 0.2137235528304139
+      },
+      {
+        "VGS_V": 2.0443593052455356,
+        "VDS_V": 2.6536627197265625,
+        "ID_mA": 0.34835815429690165,
+        "tiny_mlp_loo_prediction_mA": 0.6916620855635849,
+        "tiny_mlp_loo_abs_error_mA": 0.34330393126668324
+      },
+      {
+        "VGS_V": 2.1458101981026787,
+        "VDS_V": 0.0129644775390625,
+        "ID_mA": 0.17303466796891875,
+        "tiny_mlp_loo_prediction_mA": 0.6766518069511404,
+        "tiny_mlp_loo_abs_error_mA": 0.5036171389822216
+      },
+      {
+        "VGS_V": 2.1458101981026787,
+        "VDS_V": 0.043004150390624996,
+        "ID_mA": 0.44067382812507105,
+        "tiny_mlp_loo_prediction_mA": 0.6775017472266687,
+        "tiny_mlp_loo_abs_error_mA": 0.23682791910159762
+      },
+      {
+        "VGS_V": 2.1458101981026787,
+        "VDS_V": 0.1980352783203125,
+        "ID_mA": 0.7971191406250799,
+        "tiny_mlp_loo_prediction_mA": 0.6794028752483989,
+        "tiny_mlp_loo_abs_error_mA": 0.117716265376681
+      },
+      {
+        "VGS_V": 2.1458101981026787,
+        "VDS_V": 0.6187371826171876,
+        "ID_mA": 0.8837890625001954,
+        "tiny_mlp_loo_prediction_mA": 0.7352256756234943,
+        "tiny_mlp_loo_abs_error_mA": 0.14856338687670112
+      },
+      {
+        "VGS_V": 2.1458101981026787,
+        "VDS_V": 1.0859344482421875,
+        "ID_mA": 0.9112548828125178,
+        "tiny_mlp_loo_prediction_mA": 0.8862213673420587,
+        "tiny_mlp_loo_abs_error_mA": 0.025033515470459067
+      },
+      {
+        "VGS_V": 2.1458101981026787,
+        "VDS_V": 1.5747198486328127,
+        "ID_mA": 0.921325683593821,
+        "tiny_mlp_loo_prediction_mA": 1.0456095328832404,
+        "tiny_mlp_loo_abs_error_mA": 0.12428384928941938
+      },
+      {
+        "VGS_V": 2.1458101981026787,
+        "VDS_V": 2.0656622314453124,
+        "ID_mA": 0.9341430664062678,
+        "tiny_mlp_loo_prediction_mA": 1.1859601568155607,
+        "tiny_mlp_loo_abs_error_mA": 0.2518170904092929
+      },
+      {
+        "VGS_V": 2.2478669084821425,
+        "VDS_V": 0.00595703125,
+        "ID_mA": 0.192565917968901,
+        "tiny_mlp_loo_prediction_mA": 1.3071037773024576,
+        "tiny_mlp_loo_abs_error_mA": 1.1145378593335566
+      },
+      {
+        "VGS_V": 2.2478669084821425,
+        "VDS_V": 0.018030395507812498,
+        "ID_mA": 0.4962158203125622,
+        "tiny_mlp_loo_prediction_mA": 1.280713909872131,
+        "tiny_mlp_loo_abs_error_mA": 0.7844980895595688
+      },
+      {
+        "VGS_V": 2.2478669084821425,
+        "VDS_V": 0.045077514648437504,
+        "ID_mA": 0.9838867187499378,
+        "tiny_mlp_loo_prediction_mA": 1.2171557084757785,
+        "tiny_mlp_loo_abs_error_mA": 0.23326898972584065
+      },
+      {
+        "VGS_V": 2.2478669084821425,
+        "VDS_V": 0.08821838378906251,
+        "ID_mA": 1.4373779296874556,
+        "tiny_mlp_loo_prediction_mA": 1.1662352676039918,
+        "tiny_mlp_loo_abs_error_mA": 0.2711426620834638
+      },
+      {
+        "VGS_V": 2.2478669084821425,
+        "VDS_V": 0.18041137695312498,
+        "ID_mA": 1.8307495117189099,
+        "tiny_mlp_loo_prediction_mA": 1.1133204268650219,
+        "tiny_mlp_loo_abs_error_mA": 0.717429084853888
+      },
+      {
+        "VGS_V": 2.2478669084821425,
+        "VDS_V": 0.44908020019531253,
+        "ID_mA": 2.07489013671891,
+        "tiny_mlp_loo_prediction_mA": 1.1939885309110454,
+        "tiny_mlp_loo_abs_error_mA": 0.8809016058078645
+      },
+      {
+        "VGS_V": 2.2478669084821425,
+        "VDS_V": 0.8736175537109375,
+        "ID_mA": 2.1557617187499822,
+        "tiny_mlp_loo_prediction_mA": 1.2316971667082393,
+        "tiny_mlp_loo_abs_error_mA": 0.924064552041743
+      }
+    ]
+  },
+  "adaptive_plan": {
+    "strategy": "coarse-to-fine residual-guided VDS planning",
+    "current_points_per_curve": 7,
+    "recommended_extra_points": [
+      {
+        "VGS_V": 1.94109375,
+        "recommended_VDS_V": 2.6438784790039063,
+        "priority_score": 2.284025514016687,
+        "reason": "局部斜率变化 + 留一残差较大"
+      },
+      {
+        "VGS_V": 1.94109375,
+        "recommended_VDS_V": 1.6458145141601563,
+        "priority_score": 1.2934610446806283,
+        "reason": "局部斜率变化 + 留一残差较大"
+      },
+      {
+        "VGS_V": 2.0443593052455356,
+        "recommended_VDS_V": 0.11320892333984375,
+        "priority_score": 3.7142718420478,
+        "reason": "局部斜率变化 + 留一残差较大"
+      },
+      {
+        "VGS_V": 2.0443593052455356,
+        "recommended_VDS_V": 2.403784484863281,
+        "priority_score": 1.2479496484462211,
+        "reason": "局部斜率变化 + 留一残差较大"
+      },
+      {
+        "VGS_V": 2.1458101981026787,
+        "recommended_VDS_V": 0.027984313964843747,
+        "priority_score": 8.979913807909742,
+        "reason": "局部斜率变化 + 留一残差较大"
+      },
+      {
+        "VGS_V": 2.1458101981026787,
+        "recommended_VDS_V": 0.40838623046875006,
+        "priority_score": 3.148038438553841,
+        "reason": "局部斜率变化 + 留一残差较大"
+      },
+      {
+        "VGS_V": 2.2478669084821425,
+        "recommended_VDS_V": 0.031553955078125,
+        "priority_score": 8.593050991263482,
+        "reason": "局部斜率变化 + 留一残差较大"
+      },
+      {
+        "VGS_V": 2.2478669084821425,
+        "recommended_VDS_V": 0.31474578857421875,
+        "priority_score": 1.5586151058867923,
+        "reason": "局部斜率变化 + 留一残差较大"
+      }
+    ],
+    "hardware_run_completed": false,
+    "scope": "Planning suggestions only; they must be verified by a new real acquisition before being reported as measurements."
+  },
+  "boundary": "The intelligence layer assists analysis and test planning. It does not replace FPGA quality gates, DPS readback, calibration, or safety protection."
+}
