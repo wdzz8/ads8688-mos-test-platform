@@ -161,8 +161,8 @@ python scripts/analyze_fixed_vgs.py `
 
 ## 后续交付工作
 
-继续验证电源端子实际输出、带载和保护，补齐可控栅压、静态扫描、动态采集、异常停止、数据保存和曲线绘制，再录制实际硬件演示。
+实测、分析和离线演示已完成；实物镜头按[视频拍摄分镜_20261102.md](视频拍摄分镜_20261102.md)拍摄即可。精密电压/电流标定和独立硬件关断保护仍属于后续增强项。
 构建所需10份RTL/XDC已从实际使用的相邻历史目录原样归入本项目`rtl/`和`constr/`，SHA256记录在`output/source_collection_20261102.json`。构建与仿真脚本改为读取项目内源文件；ADS8688 SPI、MCP4725 I2C/波形/回环及mos_scan仿真均通过，41项Python测试通过。批处理环境缺少`PROCESSOR_ARCHITECTURE`时需设为`AMD64`；新的自动采集器已处理该变量。
-本 README 和工具的加入不代表已创建或上传 GitHub 仓库。
+公开仓库：[wdzz8/ads8688-mos-test-platform](https://github.com/wdzz8/ads8688-mos-test-platform)。
 
 后续实测顺序见[标定与动态下一步_20261102.md](标定与动态下一步_20261102.md)。多栅压自动采集命令为`python scripts/run_fixed_vgs_family.py --port COM3 --codes 2432 2688 2816 --build-missing`，会操作真实硬件；浏览已有结果无需重新采集。合并分析使用`python scripts/analyze_fixed_vgs_family.py <report1.json> <report2.json> ... --out-dir <analysis_dir>`。当前采集器限制为漏极电源不超过3 V、限流不超过20 mA、每点128行；报告保留实际关闭回读，不能用软件目标窗口代替独立硬件关断保护。
