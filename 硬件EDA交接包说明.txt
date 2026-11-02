@@ -1,0 +1,27 @@
+硬件 EDA 交接包
+============================================================
+
+请将同目录下的 Vivado工程资料_硬件EDA交接_20261027.zip 发给硬件同学。
+
+压缩包内重点文件：
+vivado_handoff/project/dac_adc_loopback.xpr       Vivado工程
+vivado_handoff/constr/dac_adc_loopback.xdc        FPGA引脚约束
+vivado_handoff/信号引脚表.csv                     信号—引脚表
+vivado_handoff/工程资料说明.txt                   工程与接口说明
+vivado_handoff/给硬件同学_README.txt              阅读入口
+vivado_handoff/EDA硬件核对清单.txt                原理图/PCB检查项
+vivado_handoff/接口预留与风险说明.txt             DPS和模拟前端边界
+
+已经实际验证并有封装引脚的接口：
+- ADS8688 SPI：SDI、SDO、SCLK、CS、RST
+- MCP4725 I2C：SDA、SCL
+- AX7020板载时钟和4个LED
+
+已定义名称但暂未分配引脚、暂未实现RTL的接口：
+- ADS8688 DAISY：实际接模块GND，不进FPGA
+- DPS：dps_uart_tx、dps_uart_rx、可选dps_uart_rts/cts、dps_enable、dps_fault
+- 外部触发：ext_trigger_in
+- 扫描状态：scan_done
+
+DPS型号和通信方式未确定前，不要把DPS信号绑定到任意AX7020 J11针脚。
+USB D+/D-、3.3V TTL UART、RS-232和RS-485的电气连接不同，须按最终型号设计。

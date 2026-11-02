@@ -1,0 +1,40 @@
+# Vivado generated state and local machine files
+.Xil/
+*.jou
+*.log
+*.str
+*.dmp
+ads8688_1.cache/
+ads8688_1.hw/
+ads8688_1.ip_user_files/
+ads8688_1.runs/
+ads8688_1.sim/
+vivado_handoff/**/runs/
+
+# Temporary conversion and simulator output
+tmp/
+output/mos_experiment_sim/
+output/**/ip/
+output/**/*.dcp
+output/**/*.rpt
+output/**/*.jou
+output/**/*.log
+output/**/xsim.dir/
+output/**/xsim.log
+output/**/xvlog.pb
+output/**/xelab.pb
+output/**/*.sdb
+output/**/*.xdbg
+output/**/*.rtti
+output/**/*.svtype
+output/**/*.reloc
+output/**/*.mem
+output/**/*.ini
+output/**/*.exe
+*.zip
+__pycache__/
+*.pyc
+
+# Local browser QA frame; the MP4 is an intentional demo artifact
+demo/demo_check.png
+demo/video_check.png

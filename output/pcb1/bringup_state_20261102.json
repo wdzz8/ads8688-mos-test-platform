@@ -1,0 +1,660 @@
+{
+  "date_local": "2026-11-02",
+  "source": "user_measurements_and_local_tool_observations",
+  "q1_replaced_by_user": true,
+  "spare_body_diode_with_100k_gate_source": {
+    "red_1_black_3_V": 0.586,
+    "reverse": "OL"
+  },
+  "R1_measured_ohm_approx": 990,
+  "new_q1_cutoff": {
+    "reported_VDS_V": 1.003,
+    "first_measurement_drain_adc_disconnected": true,
+    "drain_adc_reconnected": true,
+    "user_confirmed_normal_after_reconnection": true,
+    "post_reconnection_numeric_reading_not_provided": true
+  },
+  "new_q1_fixed_gate_on": {
+    "VGS_V": 3.248,
+    "VDS_V": 0.00325,
+    "DPS_current_display_A": 0.001,
+    "DPS_voltage_set_V": 1.0,
+    "user_corrected_VDS_unit_to_mV": true
+  },
+  "old_cutoff_anomaly_root_cause": "Not isolated; replacing Q1 and restoring wiring resolved the reported symptom. Solder fault or MOS damage not individually established.",
+  "next_wiring_user_reported_connected": {
+    "MCP_VOUT": "PCB J6-6 / J8 to OPA input",
+    "OPA_output": "PCB J9",
+    "fixed_3V3_gate_wire": "removed",
+    "J9_ground_jumper": "removed",
+    "SW1": "AUTO",
+    "drain_adc": "J16-5 to module AIN2 / chip CH1",
+    "function_generator": "disconnected",
+    "DPS_output_instruction": "OFF",
+    "actual_live_DPS_readback_taken": true,
+    "DPS_final_readback": {
+      "source": "device_modbus_readback",
+      "captured_at_utc": "2026-11-02T03:23:54.084112+00:00",
+      "model": 3005,
+      "firmware_raw": 14,
+      "voltage_set_V": 1.0,
+      "current_limit_A": 0.02,
+      "voltage_out_V": 0.0,
+      "current_out_A": 0.0,
+      "power_out_W": 0.0,
+      "voltage_in_V": 11.99,
+      "key_lock_raw": 0,
+      "protection_raw": 0,
+      "regulation_raw": 0,
+      "output_enabled": false,
+      "raw_registers_00_09": [
+        100,
+        20,
+        0,
+        0,
+        0,
+        1199,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "fpga": {
+    "AX7020_connector": "J11",
+    "PCB_connector": "J21",
+    "usb_serial_observed": "210512180081",
+    "usb_vid_pid": "0403:6014",
+    "windows_usb_status": "OK",
+    "vivado_targets_in_last_read_attempt": [
+      "localhost:3121/xilinx_tcf/Digilent/210512180081"
+    ],
+    "latest_user_instruction": "完成真实动态、算法和演示交付后再整理 GitHub。",
+    "program_confirmation_pending": false,
+    "bit": "output/mos_experiment/mos_experiment.bit",
+    "ltx": "output/mos_experiment/mos_experiment.ltx",
+    "reprogrammed_existing_image_after_ADC_FFFF": true,
+    "reinitialization_status_csv": "output/mos_scan/status_20261102_110624.csv",
+    "last_programming_context": "统一动态实验镜像；VIO 控制 DAC 低/高码和半周期，ILA 保留未平均 8 通道原始组。",
+    "last_rebuild_report": "output/pcb1/adc_fault_diagnostic/rebuild_20261102_190229/rebuild.json",
+    "bit_sha256": "9d4a2b091d9e852eed3f9e1c4a8b6cf42621fe9b5fd9d0fae54ba3050c9d8717",
+    "diagnostic_program_report": "output/pcb1/adc_fault_diagnostic/program_20261102_204716_278747/diagnostic.json",
+    "current_image_role": "delivery_experiment_image"
+  },
+  "software_prepared": {
+    "plot_profile": "pcb1",
+    "channels": {
+      "VG": 0,
+      "VD": 1,
+      "VS": 2,
+      "ID": 7
+    },
+    "range_codes_match_existing_firmware": [
+      0,
+      6,
+      0,
+      6,
+      0,
+      0,
+      0,
+      6
+    ],
+    "fresh_zero_capture_required": true,
+    "fresh_zero_capture_completed": true,
+    "real_powered_scan_completed": true,
+    "gain_and_shunt": "nominal 20 V/V and 0.1 ohm; not precision calibrated",
+    "plot_tests": "5 plot tests and 3 analog-gate validation tests passed; real 1/2/3 V captures passed",
+    "next_actions": [
+      "按视频拍摄分镜拍摄实物镜头",
+      "用户决定 GitHub 仓库后再创建远程并上传",
+      "精密电压/电流标定仍需另行完成"
+    ]
+  },
+  "updated_at_utc": "2026-11-02T15:53:05.568672+00:00",
+  "current_wiring_document": "当前PCB自动扫描接线_20261102.md",
+  "initial_successful_powered_capture": "output/pcb1/live_capture_20261102/powered_20261102_101529.json",
+  "latest_accepted_captures": [
+    {
+      "report": "output\\pcb1\\live_capture_20261102\\powered_20261102_111253.json",
+      "capture_csv": "output/mos_scan/mos_scan_20261102_111311.csv",
+      "zero_csv": "output\\mos_scan\\mos_scan_20261102_111217.csv",
+      "supply_set_V": 1.0,
+      "valid_rows": 256,
+      "points": 32,
+      "gate_endpoints_raw_V": [
+        -0.0076171875,
+        3.1721484375
+      ],
+      "drain_endpoints_raw_V": [
+        1.003662109375,
+        0.002265625
+      ],
+      "off_state_VD_used_for_R1_V": 1.003650173611111,
+      "source_raw_mean_V": -0.012987060546875,
+      "high_gate_current_nominal_mean_mA": 0.9875488281250178,
+      "median_current_repeat_SD_uA": 41.59580350444496,
+      "R1_crosscheck_RMSE_uA": 33.96794362847613
+    },
+    {
+      "report": "output\\pcb1\\live_capture_20261102\\powered_20261102_111437.json",
+      "capture_csv": "output/mos_scan/mos_scan_20261102_111455.csv",
+      "zero_csv": "output\\mos_scan\\mos_scan_20261102_111217.csv",
+      "supply_set_V": 2.0,
+      "valid_rows": 256,
+      "points": 32,
+      "gate_endpoints_raw_V": [
+        -0.0076171875,
+        3.1722265625
+      ],
+      "drain_endpoints_raw_V": [
+        1.998388671875,
+        0.00578125
+      ],
+      "off_state_VD_used_for_R1_V": 1.9983843315972223,
+      "source_raw_mean_V": -0.01297607421875,
+      "high_gate_current_nominal_mean_mA": 1.9848632812500266,
+      "median_current_repeat_SD_uA": 46.39589606110705,
+      "R1_crosscheck_RMSE_uA": 26.735234849679763
+    },
+    {
+      "report": "output\\pcb1\\live_capture_20261102\\powered_20261102_111934.json",
+      "capture_csv": "output/mos_scan/mos_scan_20261102_111952.csv",
+      "zero_csv": "output\\mos_scan\\mos_scan_20261102_112204.csv",
+      "supply_set_V": 3.0,
+      "valid_rows": 256,
+      "points": 32,
+      "gate_endpoints_raw_V": [
+        -0.0076953125,
+        3.172109375
+      ],
+      "drain_endpoints_raw_V": [
+        3.0066015625,
+        0.009375
+      ],
+      "off_state_VD_used_for_R1_V": 3.0065592447916667,
+      "source_raw_mean_V": -0.01289794921875,
+      "high_gate_current_nominal_mean_mA": 2.9687500000000755,
+      "median_current_repeat_SD_uA": 50.06796441102132,
+      "R1_crosscheck_RMSE_uA": 33.6018481845896
+    }
+  ],
+  "fresh_zeros": [
+    "output/mos_scan/mos_scan_20261102_111217.csv",
+    "output/mos_scan/mos_scan_20261102_112204.csv"
+  ],
+  "faults_and_recovery": {
+    "OPA_negative_supply_loss": {
+      "source": "user report",
+      "gate_anomaly_captures": [
+        "output/mos_scan/mos_scan_20261102_102356.csv",
+        "output/mos_scan/mos_scan_20261102_102627.csv"
+      ],
+      "measurement_accepted": false,
+      "original_2V_control_report": "output/pcb1/live_capture_20261102/powered_20261102_102339.json",
+      "original_report_note": "Original success records capture/control completion before the analog gate check existed; the measurement is invalidated by later review."
+    },
+    "ADC_all_FFFF_after_supply_repair": {
+      "capture": "output/mos_scan/mos_scan_20261102_110309.csv",
+      "invalid_rows": 256,
+      "measurement_accepted": false,
+      "exact_electrical_cause": "not isolated",
+      "recovered_after_reprogramming_existing_image": true
+    },
+    "recovery_confirmed_by_real_captures": true,
+    "manual_reference_after_capture_FFFF": {
+      "failed_report": "output/pcb1/manual_calibration/reference_20261102_183216_822570/reference.json",
+      "recovered_report": "output/pcb1/manual_calibration/reference_20261102_184054_056034/reference.json",
+      "DPS_remained_off": true,
+      "reinitialized_same_DAC_code": 2560,
+      "recovered_valid_rows": 128,
+      "root_cause": "Not isolated. FPGA was configured and scanning during FFFF; ADC state, supply and SPI physical link remain candidates.",
+      "latest_rejected_report": "output/pcb1/manual_calibration/reference_20261102_190857_329719/reference.json",
+      "physical_FPGA_config_read_while_FFFF": "output/pcb1/adc_fault_diagnostic/run_20261102_185508/device_properties.txt",
+      "config_observation": {
+        "DONE": 1,
+        "INIT_B": 1,
+        "EOS": 1,
+        "CRC_ERROR": 0,
+        "ILA_scan_counter_progresses": true
+      },
+      "startup_ADC_flags_are_not_runtime_health": true,
+      "retention_report": "output/pcb1/adc_fault_diagnostic/retention_20261102_185831/retention.json",
+      "retention_valid_rows": 384,
+      "retention_elapsed_s": 96.69322040000043,
+      "user_reported_ADC_AIN1_V": 2.0533,
+      "latest_rebuilt_valid_reference_before_only": "output/pcb1/manual_calibration/reference_20261102_190857_329719/reference.json",
+      "latest_rebuilt_reference_after_failed": true,
+      "module_supply_user_confirmation": {
+        "nominal_supply_V": 5,
+        "source": "user confirmation: module uses 5 V",
+        "precise_meter_reading_provided": false,
+        "does_not_establish_transient_or_DVDD_health": true
+      },
+      "diagnostic_initial_capture_report": "output/pcb1/adc_fault_diagnostic/program_20261102_204716_278747/diagnostic.json",
+      "latest_diagnostic_report": "output/pcb1/adc_fault_diagnostic/observe_audit_20261102_205700_942239/diagnostic.json",
+      "diagnostic_root_cause": "Not isolated; see raw SPI and VIO evidence. Normal windows do not prove permanent recovery.",
+      "completed_diagnostic_observations": [
+        {
+          "report": "output/pcb1/adc_fault_diagnostic/observe_20261102_193206_881955/diagnostic.json",
+          "source": "VIO INPUT_VALUE (unreliable)",
+          "continuous_health_evidence_accepted": false,
+          "polls": 298,
+          "elapsed_seconds": 300.524,
+          "fault_latched_observed": false,
+          "initial_fault_latched": 0,
+          "maximum_ffff_run_at_poll": 0,
+          "new_fault_observed": false,
+          "note": "Sticky flag detects at least 16 consecutive FFFF words; not a continuous raw sample archive."
+        },
+        {
+          "report": "output/pcb1/adc_fault_diagnostic/observe_20261102_193849_347679/diagnostic.json",
+          "source": "VIO INPUT_VALUE (unreliable)",
+          "continuous_health_evidence_accepted": false,
+          "polls": 179,
+          "elapsed_seconds": 180.177,
+          "fault_latched_observed": false,
+          "initial_fault_latched": 0,
+          "maximum_ffff_run_at_poll": 0,
+          "new_fault_observed": false,
+          "note": "Sticky flag detects at least 16 consecutive FFFF words; not a continuous raw sample archive."
+        },
+        {
+          "report": "output/pcb1/adc_fault_diagnostic/observe_20261102_201639_713544/diagnostic.json",
+          "source": "VIO INPUT_VALUE (unreliable)",
+          "continuous_health_evidence_accepted": false,
+          "polls": 179,
+          "elapsed_seconds": 180.185,
+          "fault_latched_observed": true,
+          "initial_fault_latched": 1,
+          "maximum_ffff_run_at_poll": 0,
+          "new_fault_observed": false,
+          "note": "Sticky flag detects at least 16 consecutive FFFF words; not a continuous raw sample archive."
+        },
+        {
+          "report": "output/pcb1/adc_fault_diagnostic/observe_audit_20261102_204944_098397/diagnostic.json",
+          "source": "ILA snapshots",
+          "continuous_health_evidence_accepted": true,
+          "polls": 240,
+          "elapsed_seconds": 300.832,
+          "fault_latched_observed": false,
+          "initial_fault_latched": 0,
+          "maximum_ffff_run_at_poll": 0,
+          "new_fault_observed": false,
+          "note": "Sticky flag detects at least 16 consecutive FFFF words; not a continuous raw sample archive."
+        },
+        {
+          "report": "output/pcb1/adc_fault_diagnostic/observe_audit_20261102_205700_942239/diagnostic.json",
+          "source": "ILA snapshots",
+          "continuous_health_evidence_accepted": true,
+          "polls": 478,
+          "elapsed_seconds": 600.246,
+          "fault_latched_observed": false,
+          "initial_fault_latched": 0,
+          "maximum_ffff_run_at_poll": 0,
+          "new_fault_observed": false,
+          "note": "Sticky flag detects at least 16 consecutive FFFF words; not a continuous raw sample archive."
+        }
+      ],
+      "pending_user_check": null,
+      "module_RST_user_measurement": {
+        "voltage_V": 3.3,
+        "reference": "module GND",
+        "source": "user DMM DCV report",
+        "display_text": "3.3v",
+        "meter_range": "not_reported",
+        "scope": "Current steady high level; does not rule out earlier or brief reset glitches."
+      },
+      "ADC_only_reset_report": "output/pcb1/adc_fault_diagnostic/reset_20261102_201343_288390/diagnostic.json",
+      "ADC_only_reset_raw_valid_by_snapshot": {
+        "after_words.csv": true,
+        "before_words.csv": false
+      },
+      "ADC_only_fault_recovery_reports": [
+        "output/pcb1/adc_fault_diagnostic/reset_20261102_201343_288390/diagnostic.json"
+      ]
+    }
+  },
+  "calibration": {
+    "INA_gain_and_shunt": "nominal, not precision calibrated",
+    "raw_VS_offset_V_approx": -0.013,
+    "voltage_absolute_calibration_completed": false,
+    "current_absolute_calibration_completed": false,
+    "zero_method": "point and DAC matched, nearest supplied zero capture in time",
+    "per_point_repeat_SD_median_uA_range": [
+      41.6,
+      50.1
+    ],
+    "before_after_zero_mean_drift_equivalent_uA": 7.171630859365008,
+    "before_after_zero_point_drift_uA_range": [
+      -34.1796875,
+      73.2421875
+    ]
+  },
+  "overall_project_completed": false,
+  "fixed_vgs_output_mode": {
+    "build_script": "scripts/build_mos_fixed_vgs.tcl",
+    "capture_script": "scripts/capture_mos_fixed_vgs.tcl",
+    "images_built": [
+      {
+        "dac_code": 256,
+        "approx_VG_V": 0.194,
+        "bit": "output/mos_fixed_vgs/code_0256/mos_fixed_vgs.bit",
+        "ltx": "output/mos_fixed_vgs/code_0256/mos_fixed_vgs.ltx"
+      },
+      {
+        "dac_code": 2560,
+        "approx_VG_V": 2.044,
+        "bit": "output/mos_fixed_vgs/code_2560/mos_fixed_vgs.bit",
+        "ltx": "output/mos_fixed_vgs/code_2560/mos_fixed_vgs.ltx"
+      }
+    ],
+    "build_validation": "Vivado synthesis/implementation/bitstream successful; 0 errors, 5 DRC warnings inherited from debug/PS infrastructure; no hardware programming performed.",
+    "next_user_action": "Confirm the current DM40A VG display after the requested rebuild and download, then record against reference_20261102_190857_329719. Probes unchanged, DPS OFF.",
+    "completed_family_report": "output\\pcb1\\fixed_vgs_20261102\\family_20261102_173244\\family_report.json",
+    "completed_curve_summaries": [
+      {
+        "report": "output/pcb1/fixed_vgs_20261102/family_20261102_173244/code_2432/run_20261102_173305_596805/fixed_vgs_output_report.json",
+        "dac_code": 2432,
+        "zero_csv": "output/pcb1/fixed_vgs_20261102/family_20261102_173244/code_2432/zero.csv",
+        "points": 7,
+        "valid_rows": 896,
+        "VG_raw_mean_V": 1.9410745675223213,
+        "VG_all_rows_span_V": 0.0012499999999999734,
+        "VGS_max_within_point_span_V": 0.0012499999999999734,
+        "VGS_raw_mean_V": 1.9537890625,
+        "VGS_point_means_span_V": 7.324218750004441e-05,
+        "VGS_source_zero_corrected_mean_V": 1.94109375,
+        "VS_zero_reference_V": -0.0126953125,
+        "ID_R1_crosscheck_RMSE_mA": 0.011344464388434151,
+        "ID_nominal_range_mA": [
+          0.07659912109381217,
+          0.11230468750000888
+        ],
+        "VDS_source_zero_corrected_range_V": [
+          0.1081695556640625,
+          2.8952563476562503
+        ]
+      },
+      {
+        "report": "output/pcb1/fixed_vgs_20261102/run_20261102_164821/fixed_vgs_output_report.json",
+        "dac_code": 2560,
+        "zero_csv": "output/pcb1/fixed_vgs_20261102/zero_code2560.csv",
+        "points": 7,
+        "valid_rows": 896,
+        "VG_raw_mean_V": 2.0444663783482144,
+        "VG_all_rows_span_V": 0.001875000000000071,
+        "VGS_max_within_point_span_V": 0.001874999999999627,
+        "VGS_raw_mean_V": 2.0571034458705357,
+        "VGS_point_means_span_V": 0.0001855468750000533,
+        "VGS_source_zero_corrected_mean_V": 2.0443593052455356,
+        "VS_zero_reference_V": -0.012744140625,
+        "ID_R1_crosscheck_RMSE_mA": 0.01028972540151117,
+        "ID_nominal_range_mA": [
+          0.16677856445301842,
+          0.35903930664060724
+        ],
+        "VDS_source_zero_corrected_range_V": [
+          0.034412841796874996,
+          2.6536627197265625
+        ]
+      },
+      {
+        "report": "output/pcb1/fixed_vgs_20261102/family_20261102_173244/code_2688/run_20261102_174031_184211/fixed_vgs_output_report.json",
+        "dac_code": 2688,
+        "zero_csv": "output/pcb1/fixed_vgs_20261102/family_20261102_173244/code_2688/zero.csv",
+        "points": 7,
+        "valid_rows": 896,
+        "VG_raw_mean_V": 2.145982840401786,
+        "VG_all_rows_span_V": 0.0015624999999999112,
+        "VGS_max_within_point_span_V": 0.0015624999999999112,
+        "VGS_raw_mean_V": 2.1585348074776785,
+        "VGS_point_means_span_V": 0.0001220703125,
+        "VGS_source_zero_corrected_mean_V": 2.1458101981026787,
+        "VS_zero_reference_V": -0.012724609375000001,
+        "ID_R1_crosscheck_RMSE_mA": 0.01403618224035288,
+        "ID_nominal_range_mA": [
+          0.17303466796891875,
+          0.9341430664062678
+        ],
+        "VDS_source_zero_corrected_range_V": [
+          0.0129644775390625,
+          2.0656622314453124
+        ]
+      },
+      {
+        "report": "output/pcb1/fixed_vgs_20261102/family_20261102_173244/code_2816/run_20261102_174743_651135/fixed_vgs_output_report.json",
+        "dac_code": 2816,
+        "zero_csv": "output/pcb1/fixed_vgs_20261102/family_20261102_173244/code_2816/zero.csv",
+        "points": 7,
+        "valid_rows": 896,
+        "VG_raw_mean_V": 2.2480953543526785,
+        "VG_all_rows_span_V": 0.001875000000000071,
+        "VGS_max_within_point_span_V": 0.001875000000000071,
+        "VGS_raw_mean_V": 2.260615931919643,
+        "VGS_point_means_span_V": 0.00012695312500010658,
+        "VGS_source_zero_corrected_mean_V": 2.2478669084821425,
+        "VS_zero_reference_V": -0.012749023437500001,
+        "ID_R1_crosscheck_RMSE_mA": 0.01091136650295639,
+        "ID_nominal_range_mA": [
+          0.192565917968901,
+          2.1557617187499822
+        ],
+        "VDS_source_zero_corrected_range_V": [
+          0.00595703125,
+          0.8736175537109375
+        ]
+      }
+    ],
+    "new_image_codes": [
+      2432,
+      2688,
+      2816
+    ],
+    "final_dac_code": 256,
+    "final_low_gate_summary": {
+      "csv": "output\\pcb1\\fixed_vgs_20261102\\family_20261102_173244\\final_low_gate_retry.csv",
+      "valid_rows": 128,
+      "dac_code": 256,
+      "VG_V_mean": 0.194658203125,
+      "VG_V_min": 0.194375,
+      "VG_V_max": 0.1946875,
+      "VG_V_sd": 9.108768606532661e-05,
+      "VD_V_mean": 0.0014239501953125,
+      "VD_V_min": 0.00140625,
+      "VD_V_max": 0.001484375,
+      "VD_V_sd": 3.270368243315143e-05,
+      "VS_V_mean": -0.012812500000000001,
+      "VS_V_min": -0.012812500000000001,
+      "VS_V_max": -0.012812500000000001,
+      "VS_V_sd": 0.0,
+      "INA_OUT_V_mean": 2.4958953857421875,
+      "INA_OUT_V_min": 2.495703125,
+      "INA_OUT_V_max": 2.496171875,
+      "INA_OUT_V_sd": 9.858075269343683e-05,
+      "VGS_mean_V": 0.20747070312500002,
+      "VDS_mean_V": 0.0142364501953125,
+      "VGS_span_V": 0.0003125000000000211
+    },
+    "final_dps_readback": {
+      "source": "device_modbus_readback",
+      "captured_at_utc": "2026-11-02T10:09:30.644754+00:00",
+      "model": 3005,
+      "firmware_raw": 14,
+      "voltage_set_V": 3.0,
+      "current_limit_A": 0.02,
+      "voltage_out_V": 0.0,
+      "current_out_A": 0.0,
+      "power_out_W": 0.0,
+      "voltage_in_V": 11.98,
+      "key_lock_raw": 0,
+      "protection_raw": 0,
+      "regulation_raw": 0,
+      "output_enabled": false,
+      "raw_registers_00_09": [
+        300,
+        20,
+        0,
+        0,
+        0,
+        1198,
+        0,
+        0,
+        0,
+        0
+      ],
+      "transport": {
+        "port": "COM3",
+        "baud": 9600,
+        "address": 1
+      }
+    },
+    "restore_ADC_FFFF": {
+      "capture": "output\\pcb1\\fixed_vgs_20261102\\family_20261102_173244\\final_low_gate.csv",
+      "measurement_accepted": false,
+      "recovered_after_reinitialization": true,
+      "valid_retry": "output\\pcb1\\fixed_vgs_20261102\\family_20261102_173244\\final_low_gate_retry.csv",
+      "exact_cause": "not isolated"
+    }
+  },
+  "reference_meter": {
+    "user_reported_model": "ALIENTEK / 正点原子 DM40A",
+    "usb_supported_user_belief": true,
+    "usb_function_user_confirmed": "File copy and firmware upgrade only, per official information relayed by the user; no COM port.",
+    "reference_method": "Manual entry of DM40A display with real ADC captures before and after the reading.",
+    "observed_usb_instance": "USB\\VID_28E9&PID_028F\\ATK-DM40-V1.0.0",
+    "observed_class": "USB mass storage, currently mounted E: (ATK-DSO, FAT, ~16 MB)",
+    "serial_protocol_confirmed": false,
+    "next_step": "Diagnose recurrent all-FFFF with drain OFF, SPI traces and ADC-only reset before new manual references.",
+    "manual_reference_script": "scripts/manual_voltage_calibration.py",
+    "reference_readings_obtained": true,
+    "active_manual_reference": {
+      "report": "output/pcb1/manual_calibration/reference_20261102_190857_329719/reference.json",
+      "stage": "failed",
+      "quantity": "VG",
+      "dac_code": 2560,
+      "ADC_valid_rows": 128,
+      "ADC_nominal_VG_V": 2.04413330078125,
+      "ADC_VG_span_V": 0.0012500000000001954,
+      "DPS_output_off_verified": true,
+      "DPS_voltage_out_V": 0,
+      "DPS_protection_raw": 0,
+      "invalid_capture_retries": 0,
+      "FPGA_configuration_status": "output/pcb1/manual_calibration/reference_20261102_190857_329719/before_0.device_status.txt",
+      "rebuilt_image_report": "output/pcb1/adc_fault_diagnostic/rebuild_20261102_190229/rebuild.json",
+      "absolute_calibration_completed": false,
+      "confirmation_of_new_meter_display_required_after_reinitialization": false,
+      "measurement_accepted": false,
+      "meter_submission": {
+        "quantity": "VG",
+        "meter": "ALIENTEK DM40A",
+        "display_text": "2.0533",
+        "display_unit": "V",
+        "reference_V": 2.0533,
+        "meter_range": "not_reported",
+        "notes": "User reconfirmed display remains 2.0533 V after requested rebuild and download; meter range not provided.",
+        "submitted_at_utc": "2026-11-02T11:15:41.775200+00:00",
+        "pairing_status": "rejected",
+        "rejection_reason": "SystemExit: 全部ADC通道均为FFFF，停止换算"
+      },
+      "next_action": "Paused for ADC runtime FFFF investigation; do not reuse the rejected point."
+    },
+    "observed_files": [
+      "CONFIG.BIN",
+      "logo.bmp",
+      "S000.BMP",
+      "S001.BMP",
+      "S002.BMP",
+      "S003.BMP"
+    ],
+    "recorded_manual_references": [
+      {
+        "report": "output/pcb1/manual_calibration/reference_20261102_182500_855068/reference.json",
+        "quantity": "VG",
+        "dac_code": 256,
+        "reference_V": 0.20465,
+        "ADC_nominal_bracket_mean_V": 0.19457885742187503,
+        "ADC_minus_DMM_V": -0.01007114257812497,
+        "meter_range": "not_reported",
+        "recorded_at_utc": "2026-11-02T10:31:55.324746+00:00"
+      }
+    ],
+    "rejected_manual_references": [
+      {
+        "report": "output/pcb1/manual_calibration/reference_20261102_183216_822570/reference.json",
+        "reference_V": 2.0533,
+        "quantity": "VG",
+        "dac_code": 2560,
+        "reason": "After-capture has 128 of 128 rows with all channels FFFF.",
+        "measurement_accepted": false
+      },
+      {
+        "report": "output/pcb1/manual_calibration/reference_20261102_184054_056034/reference.json",
+        "reference_V": 2.0533,
+        "quantity": "VG",
+        "dac_code": 2560,
+        "reason": "All eight ADC channels FFFF in after-capture despite startup flags normal.",
+        "measurement_accepted": false
+      },
+      {
+        "report": "output/pcb1/manual_calibration/reference_20261102_190857_329719/reference.json",
+        "reference_V": 2.0533,
+        "quantity": "VG",
+        "dac_code": 2560,
+        "reason": "After-capture all FFFF even after user-requested complete rebuild and download.",
+        "measurement_accepted": false
+      }
+    ],
+    "user_observations": [
+      {
+        "quantity": "VG",
+        "location": "ADS8688 module AIN1",
+        "reference_V": 2.0533,
+        "source": "user_meter_report",
+        "notes": "User also requested rebuilding the AX7020 image before ADC measurement; no ADC calibration pair accepted from this observation."
+      }
+    ]
+  },
+  "source_collection": "output/source_collection_20261102.json",
+  "DPS_latest_diagnostic_readback": {
+    "source": "device_modbus_readback",
+    "captured_at_utc": "2026-11-02T13:07:18.440802+00:00",
+    "model": 3005,
+    "firmware_raw": 14,
+    "voltage_set_V": 1.0,
+    "current_limit_A": 0.02,
+    "voltage_out_V": 0.0,
+    "current_out_A": 0.0,
+    "power_out_W": 0.0,
+    "voltage_in_V": 12.0,
+    "key_lock_raw": 0,
+    "protection_raw": 0,
+    "regulation_raw": 0,
+    "output_enabled": false,
+    "raw_registers_00_09": [
+      100,
+      20,
+      0,
+      0,
+      0,
+      1200,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "source_diagnostic_manifest": "output/source_diagnostic_20261102.json",
+  "delivery_state": {
+    "dynamic_report": "output/pcb1/dynamic/run_20261102_215847_036499/dynamic_report.json",
+    "transfer_report": "output/pcb1/transfer/run_20261102_222410_092311/transfer_report.json",
+    "analysis": "demo/data/experiment_analysis.json",
+    "offline_demo": "demo/index.html",
+    "replay_video": "demo/mos_data_replay.mp4",
+    "video_storyboard": "视频拍摄分镜_20261102.md",
+    "real_dynamic_valid_rows": 24576,
+    "real_transfer_points": 9,
+    "offline_demo_ready": true,
+    "github_upload": "pending_until_user_requests_final_publish"
+  }
+}
