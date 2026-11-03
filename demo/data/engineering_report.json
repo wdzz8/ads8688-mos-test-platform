@@ -1,0 +1,49 @@
+{
+  "source": "Delivered AX7020 mos_experiment implementation artifacts",
+  "implementation": {
+    "bitstream_present": true,
+    "probe_file_present": true,
+    "bitstream": "output/mos_experiment/mos_experiment.bit",
+    "probe_file": "output/mos_experiment/mos_experiment.ltx",
+    "target_clock_Hz": 50000000,
+    "row_period_us": 416,
+    "channel_interval_us": 52,
+    "channels": 8,
+    "ila_marked_signals": true
+  },
+  "timing": {
+    "setup_WNS_ns": 11.446,
+    "setup_TNS_ns": 0.0,
+    "hold_WHS_ns": 0.053,
+    "hold_THS_ns": 0.0,
+    "failing_endpoints": 0,
+    "status": "PASS",
+    "report": "output/mos_experiment/timing_summary.rpt"
+  },
+  "synthesis": {
+    "cell_counts": {
+      "LUT1": 44,
+      "LUT2": 27,
+      "LUT3": 263,
+      "LUT4": 101,
+      "LUT5": 51,
+      "LUT6": 135,
+      "FDRE": 603,
+      "FDSE": 17,
+      "experiment_vio": 1,
+      "BUFG": 1,
+      "CARRY4": 75,
+      "FDCE": 99,
+      "FDPE": 3,
+      "IBUF": 2,
+      "IOBUF": 1,
+      "OBUF": 8,
+      "OBUFT": 1
+    },
+    "lut_total": 621,
+    "flip_flop_total": 722,
+    "carry4": 75,
+    "scope": "Synthesis cell counts from the delivered mos_experiment build; percentages are omitted because a device utilization report was not generated."
+  },
+  "engineering_claim": "The delivered bitstream closes timing for the reported constraints and exposes timestamped multi-channel evidence through ILA; the model and host analysis remain outside the hardware acceptance path."
+}

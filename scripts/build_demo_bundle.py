@@ -5,6 +5,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "demo/data/experiment_analysis.json"
 INTELLIGENCE = ROOT / "demo/data/intelligent_analysis.json"
+ENGINEERING = ROOT / "demo/data/engineering_report.json"
 TARGET = ROOT / "demo/demo_data.js"
 
 def decimate(values, limit=900):
@@ -16,12 +17,14 @@ def decimate(values, limit=900):
 def main():
     source = json.loads(SOURCE.read_text(encoding="utf-8"))
     intelligence = json.loads(INTELLIGENCE.read_text(encoding="utf-8")) if INTELLIGENCE.exists() else None
+    engineering = json.loads(ENGINEERING.read_text(encoding="utf-8")) if ENGINEERING.exists() else None
     compact = {
         "source": source["source"],
         "scaling": source["scaling"],
         "static": source["static"],
         "transfer": source.get("transfer"),
         "intelligent": intelligence,
+        "engineering": engineering,
         "dynamic": {
             "row_period_s": source["dynamic"]["row_period_s"],
             "channel_interval_s": source["dynamic"]["channel_interval_s"],

@@ -10,6 +10,7 @@
 - `demo/index.html`：无需网络即可打开的交互式演示页面；`demo/mos_data_replay.mp4` 是由真实采样生成的数据回放素材。
 - `demo/data/experiment_analysis.json`：重新读取原始 CSV 后生成的分析结果，包含经验模型、留一验证、动态周期/占空比和转移曲线 gm 趋势。
 - `demo/data/intelligent_analysis.json`：基于真实分析结果生成的 TinyMLP 探索性回归、器件画像和残差驱动的下一采样点建议；不参与硬件数据验收。
+- `demo/data/engineering_report.json`：从已交付 bit/LTX、综合日志和 timing report 提取的 FPGA 工程指标，用于说明平台适用度和实现证据。
 - [初赛创新点与视频策略_20261103.md](初赛创新点与视频策略_20261103.md)：按竞赛通知的创新性、科学性、工程可行性、设计难度和 FPGA 适用度整理的初赛主线、加分项与三分钟视频结构。
 
 快速打开演示：在文件管理器中双击 `demo/index.html`。更新数据后运行：
@@ -17,6 +18,7 @@
 ```powershell
 python scripts/analyze_experiments.py
 python scripts/intelligent_analysis.py
+python scripts/build_engineering_report.py
 python scripts/build_demo_bundle.py
 ```
 
