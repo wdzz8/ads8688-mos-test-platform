@@ -1,0 +1,6 @@
+PASS: Vivado 2022.2 project synthesis completed.
+PASS: All 12 scalar external ports match the documented package pins and LVCMOS33.
+PASS: u_ila_loop is present, with 4096 samples, storage qualification, and 10 probes.
+DPS communication and external fault/trigger ports are not implemented.
+This checks synthesis and constraints; implementation/bitstream were not rerun for this project.
+program/*.bit and *.ltx are the previously built matched loopback artifacts.

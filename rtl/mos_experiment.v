@@ -28,7 +28,11 @@ module mos_experiment #(parameter integer CLK_FREQ=50_000_000)(
     reg wave=0, phase=0, previous_apply=0;
     (* mark_debug="true" *) reg [15:0] configuration_id=0;
     wire apply=request_apply && !previous_apply;
-    wire [11:0] desired_code=phase ? high_code : low_code;
+    wire [11:0] requested_code=phase ? high_code : low_code;
+    // This is a PL-side gate-voltage fallback request.  It commands the
+    // existing MCP4725 path to code 0; it is not an independent analog clamp.
+    (* mark_debug="true" *) reg safe_gate_requested=0, safe_gate_zeroed=0;
+    wire [11:0] desired_code=safe_gate_requested ? 12'd0 : requested_code;
     always @(posedge sys_clk) begin
         previous_apply<=request_apply;
         if (por) begin
@@ -61,9 +65,17 @@ module mos_experiment #(parameter integer CLK_FREQ=50_000_000)(
         dac_start<=0;
         if (por) begin
             dac_ready<=0; dac_error<=0; have_code<=0; vg_code<=256; transition_count<=0;
+            safe_gate_zeroed<=0;
+        end else if (request_adc_reset) begin
+            // Keep the safety state single driven: the ADC reset command also
+            // arms a fresh gate command, while the DAC controller owns the
+            // completion latch.
+            safe_gate_zeroed<=0;
         end else begin
             if (apply) dac_error<=0;
-            if (init_done && !init_error && !dac_busy && !dac_start && !dac_done &&
+            if (safe_gate_requested && !safe_gate_zeroed && !dac_busy && !dac_start && !dac_done) begin
+                dac_set<=12'd0; dac_start<=1;
+            end else if (!safe_gate_requested && init_done && !init_error && !dac_busy && !dac_start && !dac_done &&
                 !dac_error && (!have_code || vg_code!=desired_code)) begin
                 dac_set<=desired_code; dac_start<=1;
             end
@@ -71,6 +83,7 @@ module mos_experiment #(parameter integer CLK_FREQ=50_000_000)(
                 if (dac_ack_error) begin dac_error<=1; dac_ready<=0; end
                 else begin
                     have_code<=1; dac_ready<=1; vg_code<=dac_set;
+                    if (safe_gate_requested && dac_set==12'd0) safe_gate_zeroed<=1;
                     transition_count<=transition_count+1'b1;
                 end
             end
@@ -89,17 +102,73 @@ module mos_experiment #(parameter integer CLK_FREQ=50_000_000)(
     reg aligned=0, sweep_bad=0, sweep_busy=0;
     (* mark_debug="true" *) reg [15:0] ffff_run=0;
     (* mark_debug="true" *) reg fault_latched=0;
+    (* mark_debug="true" *) reg [3:0] fault_event_reason=0;
+    (* mark_debug="true" *) reg [31:0] fault_event_sequence=0;
+    (* mark_debug="true" *) reg [31:0] fault_event_timestamp=0;
+    (* mark_debug="true" *) reg [15:0] fault_event_config=0;
     (* mark_debug="true" *) reg [11:0] row_start_code=0;
+    // Online point statistics for the current stable DAC code.  The host can
+    // display these running features without recomputing every raw sample.
+    (* mark_debug="true" *) reg [11:0] feature_code=0;
+    (* mark_debug="true" *) reg [15:0] feature_samples=0;
+    (* mark_debug="true" *) reg [15:0] feature_event_samples=0;
+    (* mark_debug="true" *) reg [31:0] feature_sum_ch7=0;
+    (* mark_debug="true" *) reg [63:0] feature_sumsq_ch7=0;
+    (* mark_debug="true" *) reg [15:0] feature_mean_ch7=0;
+    (* mark_debug="true" *) reg [31:0] feature_var_ch7=0;
+    (* mark_debug="true" *) reg feature_valid=0;
+    reg feature_have_code=0;
+    reg [11:0] feature_active_code=0;
+    reg [31:0] row_timeout_cycles=0;
+    localparam [31:0] ROW_TIMEOUT_LIMIT = CLK_FREQ/200; // 5 ms at 50 MHz
+    // Use a fixed eight-row window so the online mean is a shift, keeping the
+    // 50 MHz acquisition path free of wide variable dividers.  The raw sum
+    // and sum-of-squares remain available to the host for exact statistics.
+    wire [16:0] feature_new_count={1'b0,feature_samples}+17'd1;
+    wire [32:0] feature_new_sum={1'b0,feature_sum_ch7}+{17'd0,adc_data};
+    wire [31:0] adc_square=adc_data*adc_data;
+    wire [63:0] feature_new_sumsq=feature_sumsq_ch7+{32'd0,adc_square};
+    wire [31:0] feature_new_mean=feature_new_sum >> 3;
+    wire [15:0] feature_window_mean=feature_sum_ch7 >> 3;
+    wire [31:0] feature_window_second=feature_sumsq_ch7 >> 3;
+    wire [31:0] feature_window_mean_square=feature_window_mean*feature_window_mean;
+    wire [31:0] feature_window_variance=(feature_window_second>feature_window_mean_square) ?
+        feature_window_second-feature_window_mean_square : 32'd0;
     always @(posedge sys_clk) begin
         cycles<=cycles+1'b1; row_valid<=0;
         if (por) begin
             cycles<=0; aligned<=0; row_sequence<=0; ffff_run<=0; fault_latched<=0;
+            fault_event_reason<=0; fault_event_sequence<=0; fault_event_timestamp<=0;
+            fault_event_config<=0; row_timeout_cycles<=0;
+            feature_code<=0; feature_samples<=0; feature_sum_ch7<=0;
+            feature_event_samples<=0;
+            feature_sumsq_ch7<=0; feature_mean_ch7<=0; feature_var_ch7<=0;
+            feature_valid<=0; feature_have_code<=0; feature_active_code<=0;
+            safe_gate_requested<=0;
         end else begin
+            feature_valid<=0;
+            if (request_adc_reset) begin
+                fault_latched<=0; safe_gate_requested<=0;
+                fault_event_reason<=0; ffff_run<=0; row_timeout_cycles<=0;
+            end
             if (!init_done || request_adc_reset) aligned<=0;
+            if (init_done && !init_error && !request_adc_reset && wave) begin
+                if (row_valid) row_timeout_cycles<=0;
+                else if (row_timeout_cycles<ROW_TIMEOUT_LIMIT) row_timeout_cycles<=row_timeout_cycles+1'b1;
+                if (row_timeout_cycles>=ROW_TIMEOUT_LIMIT-1 && !fault_latched) begin
+                    fault_latched<=1; safe_gate_requested<=1; fault_event_reason<=4'd3;
+                    fault_event_sequence<=row_sequence; fault_event_timestamp<=cycles;
+                    fault_event_config<=configuration_id;
+                end
+            end else row_timeout_cycles<=0;
             if (adc_valid && init_done && !request_adc_reset) begin
                 if (adc_data==16'hffff) begin
                     if (ffff_run!=65535) ffff_run<=ffff_run+1'b1;
-                    if (ffff_run>=15) fault_latched<=1;
+                    if (ffff_run>=15 && !fault_latched) begin
+                        fault_latched<=1; safe_gate_requested<=1; fault_event_reason<=4'd1;
+                        fault_event_sequence<=row_sequence; fault_event_timestamp<=cycles;
+                        fault_event_config<=configuration_id;
+                    end
                 end else ffff_run<=0;
                 if (adc_index==0) begin
                     aligned<=1; expected_channel<=1; row_ch0<=adc_data;
@@ -119,6 +188,31 @@ module mos_experiment #(parameter integer CLK_FREQ=50_000_000)(
                             row_bad<=sweep_bad || adc_data==16'hffff || init_error || !dac_ready || dac_error;
                             row_transition<=sweep_busy || dac_busy || sweep_transition!=transition_count ||
                                 sweep_config!=configuration_id;
+                            // Stable rows feed the point statistics engine.  A
+                            // code change emits the completed feature snapshot
+                            // and starts a new accumulator with this sample.
+                            if (!sweep_bad && adc_data!=16'hffff && !dac_busy &&
+                                sweep_transition==transition_count && sweep_config==configuration_id) begin
+                                if (!feature_have_code || feature_active_code!=sweep_code) begin
+                                    if (feature_have_code && feature_samples>=16'd8) begin
+                                        feature_code<=feature_active_code;
+                                        feature_event_samples<=feature_samples;
+                                        feature_mean_ch7<=feature_window_mean;
+                                        feature_var_ch7<=feature_window_variance;
+                                        feature_valid<=1;
+                                    end
+                                    feature_have_code<=1; feature_active_code<=sweep_code;
+                                    feature_samples<=1; feature_sum_ch7<=adc_data;
+                                    feature_sumsq_ch7<=adc_data*adc_data;
+                                end else begin
+                                    if (feature_samples<16'd8) begin
+                                        feature_samples<=feature_new_count[15:0];
+                                        feature_sum_ch7<=feature_new_sum[31:0];
+                                        feature_sumsq_ch7<=feature_new_sumsq;
+                                        feature_mean_ch7<=feature_new_mean[15:0];
+                                    end
+                                end
+                            end
                         end
                     endcase
                 end else aligned<=0;

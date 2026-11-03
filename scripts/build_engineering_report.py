@@ -55,9 +55,11 @@ def build_report():
             "ila_marked_signals": True,
         },
         "timing": {
-            "setup_WNS_ns": first_float(r"^\s*([0-9.]+)\s+0\.000\s+0\s+16053", timing, 11.446),
+            # The total endpoint count changes when the ILA probe set changes;
+            # parse the design-summary row without baking in an old count.
+            "setup_WNS_ns": first_float(r"^\s*([-+0-9.]+)\s+0\.000\s+0\s+\d+\s+([-+0-9.]+)\s+0\.000", timing, 0.0),
             "setup_TNS_ns": 0.0,
-            "hold_WHS_ns": first_float(r"^\s*[0-9.]+\s+0\.000\s+0\s+16053\s+([0-9.]+)\s+0\.000", timing, 0.053),
+            "hold_WHS_ns": first_float(r"^\s*[-+0-9.]+\s+0\.000\s+0\s+\d+\s+([-+0-9.]+)\s+0\.000", timing, 0.0),
             "hold_THS_ns": 0.0,
             "failing_endpoints": 0,
             "status": "PASS",

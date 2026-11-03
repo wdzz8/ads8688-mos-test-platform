@@ -1,0 +1,33 @@
+类别,模块/信号,RTL端口或内部信号,FPGA方向,AX7020连接,FPGA封装引脚,IO标准/电平,外部连接或功能,当前状态,备注
+时钟,系统时钟,sys_clk,输入,板载50MHz,U18,LVCMOS33/3.3V,FPGA逻辑时钟,已验证,周期20ns
+ADS8688,SDI,adc_sdi,输出,J11-5,F20,LVCMOS33/3.3V,FPGA到ADC串行数据,已验证,MSB first
+ADS8688,SDO,adc_sdo,输入,J11-6,F19,LVCMOS33/3.3V,ADC到FPGA串行数据,已验证,输入方向
+ADS8688,CLK/SCLK,adc_sclk,输出,J11-4,F16,LVCMOS33/3.3V,ADC SPI时钟,已验证,约1MHz
+ADS8688,CS,adc_cs_n,输出,J11-3,F17,LVCMOS33/3.3V,ADC片选低有效,已验证,帧期间为低
+ADS8688,RST,adc_rst_n,输出,J11-7,G20,LVCMOS33/3.3V,ADC复位低有效,已验证,上电初始化使用
+ADS8688,DAISY,模块DAISY,不接FPGA,模块端接GND,无封装引脚,0V,禁止级联/单器件使用,已验证,不要在EDA中分配FPGA IO
+MCP4725,SDA,mcp_sda,双向,J11-10,J18,LVCMOS33/3.3V开漏, I2C数据线,已验证,外部2.2k~4.7k上拉到3.3V
+MCP4725,SCL,mcp_scl,输出,J11-9,H18,LVCMOS33/3.3V开漏, I2C时钟线,已验证,约100kHz；外部上拉到3.3V
+MCP4725,VOUT,模拟网络,不接FPGA,接ADS8688 P2-4 AIN0,无封装引脚,0~3.3V,给ADC提供测试波形,已验证,不是数字IO
+状态,ADC采样数据,ch_data[15:0],内部,ILA/JTAG,无封装引脚,内部逻辑,ADC最近一次采样值,已验证,不出板
+状态,ADC新数据脉冲,ch_valid,内部,ILA/JTAG,无封装引脚,内部逻辑,采样完成脉冲,已验证,不出板
+状态,ADC初始化完成,init_done,内部,ILA/JTAG,无封装引脚,内部逻辑,初始化流程完成,已验证,需同时检查init_error
+故障,ADC初始化错误,init_error,内部,ILA/JTAG,无封装引脚,内部逻辑,寄存器回读错误锁存,已验证,不出板
+状态,DAC已应答,dac_ready,内部,ILA/JTAG,无封装引脚,内部逻辑,MCP4725最近写入收到ACK,已验证,不出板
+故障,DAC I2C错误,dac_error,内部,ILA/JTAG,无封装引脚,内部逻辑,NACK错误锁存,已验证,不出板
+状态,DAC写忙,dac_busy,内部,ILA/JTAG,无封装引脚,内部逻辑,I2C写事务进行中,已验证,不出板
+状态,DAC实际码值,dac_applied[11:0],内部,ILA/JTAG,无封装引脚,内部逻辑,ACK后发布的DAC码值,已验证,不出板
+触发,ILA保存资格,capture_tick,内部,ILA/JTAG,无封装引脚,内部逻辑,每1ms允许保存一个样本,已验证,不出板
+状态,毫秒计数,sample_ms[31:0],内部,ILA/JTAG,无封装引脚,内部逻辑,捕获点时间标记,已验证,不出板
+指示,LED1,led[0],输出,板载LED1,M14,LVCMOS33/3.3V,LED1状态指示,已验证,低电平点亮
+指示,LED2,led[1],输出,板载LED2,M15,LVCMOS33/3.3V,LED2状态指示,已验证,低电平点亮
+指示,LED3,led[2],输出,板载LED3,K16,LVCMOS33/3.3V,通信正常指示,已验证,低电平点亮
+指示,LED4,led[3],输出,板载LED4,J16,LVCMOS33/3.3V,常亮指示,已验证,低电平点亮
+DPS预留,dps_uart_tx,dps_uart_tx,输出,待确认,待确认,待确认,FPGA发送到DPS RX,未实现,需先确认DPS接口类型和电平
+DPS预留,dps_uart_rx,dps_uart_rx,输入,待确认,待确认,待确认,DPS TX发送到FPGA RX,未实现,需先确认DPS接口类型和电平
+DPS预留,dps_uart_rts,dps_uart_rts,输出,待确认,待确认,待确认,可选硬件流控,未实现,没有协议需求时不布线
+DPS预留,dps_uart_cts,dps_uart_cts,输入,待确认,待确认,待确认,可选硬件流控,未实现,没有协议需求时不布线
+DPS预留,dps_enable,dps_enable,输出,待确认,待确认,待确认,电源输出使能,未实现,建议经过电平/隔离和默认关闭电路
+DPS预留,dps_fault,dps_fault,输入,待确认,待确认,待确认,过压过流过温故障,未实现,需确认有效电平和锁存策略
+外部触发预留,ext_trigger_in,ext_trigger_in,输入,待确认,待确认,待确认,开始扫描外部触发,未实现,需确认连接器、去抖和保护
+外部状态预留,scan_done,scan_done,输出,待确认,待确认,待确认,一次扫描完成,未实现,当前只在ILA内部有状态

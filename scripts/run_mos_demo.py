@@ -18,7 +18,9 @@ from scripts.experiment_data import load_capture, summarize
 from scripts.manual_voltage_calibration import vivado
 
 def save(path,data):
-    path.write_text(json.dumps(data,indent=2)+'\n',encoding='utf-8')
+    pending=path.with_suffix(path.suffix+'.tmp')
+    pending.write_text(json.dumps(data,indent=2)+'\n',encoding='utf-8')
+    pending.replace(path)
 
 def capture(directory,frequency,low,high,action='capture',restart=False,depth=8192):
     half=round(50_000_000/(2*frequency))
@@ -97,6 +99,7 @@ def main():
     report={'source':'real_PCB1_dynamic_ILA_and_DPS','success':False,
         'started_at_utc':datetime.now(timezone.utc).isoformat(),'bit':str(bit),
         'bit_sha256':hashlib.sha256(bit.read_bytes()).hexdigest(),
+        'requested_frequencies_Hz':args.frequencies,
         'low_code':args.low_code,'high_code':args.high_code,'current_limit_A':0.020,'results':[],
         'notes':['Unaveraged sequential ADC data with per-channel times.',
                  'INA gain and shunt remain nominal; absolute calibration pending.',
@@ -116,6 +119,7 @@ def main():
             for frequency in args.frequencies:
                 point={'frequency_Hz':frequency,'success':False}
                 report['results'].append(point)
+                save(report_path,report)
                 for attempt in range(2):
                     zero=out/f'zero_{frequency:g}Hz_{attempt}'; zero.mkdir()
                     try:

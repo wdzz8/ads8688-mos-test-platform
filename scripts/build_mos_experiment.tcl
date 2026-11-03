@@ -35,6 +35,9 @@ foreach {signal width} {
     row_valid 1 row_bad 1 row_transition 1 row_sequence 32 timestamp_cycles 32 row_start_cycles 32
     vg_code 12 row_start_code 12 transition_count 32 configuration_id 16
     init_done 1 init_error 1 dac_ready 1 dac_error 1 dac_busy 1 ffff_run 16 fault_latched 1
+    safe_gate_requested 1 safe_gate_zeroed 1 fault_event_reason 4 fault_event_sequence 32
+    fault_event_timestamp 32 fault_event_config 16 feature_code 12 feature_samples 16 feature_event_samples 16
+    feature_sum_ch7 32 feature_sumsq_ch7 64 feature_mean_ch7 16 feature_var_ch7 32 feature_valid 1
 } {
     if {$i>0} {create_debug_port u_ila_experiment probe}
     set port u_ila_experiment/probe$i

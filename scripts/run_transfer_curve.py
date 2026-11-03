@@ -12,6 +12,22 @@ from scripts.run_mos_demo import capture, powered_capture, save
 from scripts.capture_fixed_vgs_output import verified_off
 from scripts.dps_control import DpsController
 
+
+def resume_state(previous, default_supply=0.5):
+    successful = [point for point in previous.get('results', [])
+                  if point.get('success') is True]
+    supply = default_supply
+    if successful:
+        iterations = successful[-1].get('iterations', [])
+        if not iterations:
+            raise ValueError('Last successful point has no feedback iteration')
+        last = iterations[-1]
+        supply = round(last['supply_set_V'] + last['error_V'], 2)
+    if not 0.05 <= supply <= 3.0:
+        raise ValueError('Resume supply outside envelope')
+    return successful, supply
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--port',default='COM3')
@@ -34,15 +50,11 @@ def main():
             or previous.get('tolerance_V')!=tolerance):
             raise ValueError('Resume report has incompatible settings')
         report['resumed_from']=str(args.resume.resolve())
-        report['results']=[p for p in previous['results'] if p.get('success') is True]
+        report['results'],supply=resume_state(previous,target)
     save(report_path,report)
     connection=serial.Serial(port=None,baudrate=9600,timeout=1.5,write_timeout=1.5)
     connection.port=args.port;connection.dtr=connection.rts=False
-    supply=target
-    if args.resume and previous['results']:
-        last=previous['results'][-1]['iterations'][-1]
-        supply=round(last['supply_set_V']+last['error_V'],2)
-        if not 0.05<=supply<=3.0:raise ValueError('Resume supply outside envelope')
+    if not args.resume:supply=target
     with connection:
         controller=DpsController(connection)
         try:
@@ -53,6 +65,7 @@ def main():
                 if any(p['dac_code']==code and p['success'] for p in report['results']):continue
                 point={'dac_code':code,'success':False,'iterations':[]}
                 report['results'].append(point)
+                save(report_path,report)
                 zero=out/f'code_{code}_zero';zero.mkdir()
                 try:
                     point['zero']=capture(zero,1,code,code,depth=128)

@@ -1,5 +1,18 @@
 # AX7020 MOS 测试平台
 
+## 2026-11-03 提交版本
+
+四项材料分别提交：演示视频、技术文档、全部代码压缩包、GitHub 仓库链接。
+
+- [最终交付下载页](https://github.com/wdzz8/ads8688-mos-test-platform/releases/tag/submission-20261103)：独立视频、PDF、代码 ZIP，以及附带原始证据的完整交付包。
+- [GitHub 仓库](https://github.com/wdzz8/ads8688-mos-test-platform)。代码 ZIP 与本次发布标签对应，保留目录结构解压后使用。
+- `rtl/`、`constr/`：当前 FPGA 源码和引脚约束；`scripts/build_mos_experiment.tcl` 是当前统一镜像的构建入口，Vivado 会生成所需 VIO/ILA IP。`vivado_handoff/` 为早期回环与联调工程，保留作历史参考。
+- `scripts/`、`tests/`：采集、串口供电、分析、PC 服务、文档/视频构建与测试；`demo/`：PC 平台。安装依赖后运行 `python scripts/live_demo_server.py`，打开 `http://127.0.0.1:8765/demo/index.html`；该服务只读采集结果文件。
+- 冻结 bit/LTX 在 `output/mos_experiment/`。当前实现 WNS 7.640 ns、WHS 0.048 ns；旧录屏工程页属于较早构建。
+- 完整交付包包含独立的 `submission_manifest.json`、`submission_evidence.json` 与原始数据。需要离线重算时完整解压该包，在其根目录运行 `python scripts/verify_submission.py`；仅下载代码 ZIP 不等同于取得完整实验证据包。
+
+演示视频为 2 分 43 秒、1080P，包含中文 AI 配音及字幕。历史报告、采集批次与加速等待均已注明；绝对精度标定、跨上电/插拔/器件独立重复测试、板级故障注入及断连独立关断仍待实测。±15 mV 是 ADC 回读接受窗口，不是绝对精度指标。
+
 ## 2026-11-02 交付状态
 
 真实 PCB1 实测和离线演示已经完成：
@@ -12,6 +25,8 @@
 - `demo/data/intelligent_analysis.json`：基于真实分析结果生成的 TinyMLP 探索性回归、器件画像和残差驱动的下一采样点建议；不参与硬件数据验收。
 - `demo/data/engineering_report.json`：从已交付 bit/LTX、综合日志和 timing report 提取的 FPGA 工程指标，用于说明平台适用度和实现证据。
 - [初赛创新点与视频策略_20261103.md](初赛创新点与视频策略_20261103.md)：按竞赛通知的创新性、科学性、工程可行性、设计难度和 FPGA 适用度整理的初赛主线、加分项与三分钟视频结构。
+
+2026-11-03 已更新统一 `mos_experiment` 镜像：连续 FFFF 和单行超时会锁存故障原因、序号、时间戳和配置号，并请求现有 MCP4725 路径把栅压码归零；这属于 PL 侧回退请求，不等同于独立模拟硬件保护。稳定 DAC 点新增 8 行窗口的在线均值/方差以及原始 sum/sumsq 探针，主机仍可用原始统计量重算。仿真通过，最终 bit/LTX 位于 `output/mos_experiment/`；布局布线时序为 WNS 7.640 ns、WHS 0.048 ns、TNS/THS 均为 0，DRC 错误数为 0。
 
 快速打开演示：在文件管理器中双击 `demo/index.html`。更新数据后运行：
 

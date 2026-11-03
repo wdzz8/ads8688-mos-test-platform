@@ -1,0 +1,97 @@
+Vivado 工程资料：AX7020 + ADS8688 + MCP4725
+整理日期：2026-10-26
+
+1. 工程入口与文件
+打开 project/dac_adc_loopback.xpr，Vivado 版本为 2022.2。
+FPGA 型号为 xc7z020clg400-2；顶层为 dac_adc_loopback。
+rtl/ 包含四个 Verilog 源文件的当前快照。
+constr/dac_adc_loopback.xdc 包含当前顶层的全部外部引脚和 50MHz 时钟约束。
+scripts/debug_setup.tcl 是综合后自动运行的 ILA 创建脚本。
+scripts/capture_loopback.tcl 在 Hardware Manager 中设置并执行捕获。
+program/ 中的 bit/ltx 是此前生成并用于用户波形验证的匹配文件。
+
+如需移动到其他电脑，请复制整个 vivado_handoff 文件夹。
+如工程移动后脚本路径失效，将 project 改名留存，然后在 Vivado 中执行：
+source <新位置>/vivado_handoff/create_project.tcl
+可从本文件夹的源码和约束重新生成工程；脚本不会覆盖已有 project。
+
+2. 信号—FPGA 引脚定义（方向均以 FPGA 为参照）
+ADS8688 SDI：adc_sdi；输出；AX7020 J11-5；FPGA F20；LVCMOS33。
+ADS8688 SDO：adc_sdo；输入；AX7020 J11-6；FPGA F19；LVCMOS33。
+ADS8688 CLK/SCLK：adc_sclk；输出；AX7020 J11-4；FPGA F16；LVCMOS33；约 1MHz。
+ADS8688 CS：adc_cs_n；输出；AX7020 J11-3；FPGA F17；LVCMOS33；低有效。
+ADS8688 RST：adc_rst_n；输出；AX7020 J11-7；FPGA G20；LVCMOS33；低有效。
+ADS8688 DAISY：接模块 GND，保持低电平；不接 FPGA，无 RTL 端口与封装引脚。
+MCP4725 SDA：mcp_sda；双向；AX7020 J11-10；FPGA J18；LVCMOS33；开漏。
+MCP4725 SCL：mcp_scl；输出；AX7020 J11-9；FPGA H18；LVCMOS33；开漏；约 100kHz。
+系统时钟：sys_clk；输入；板载时钟；FPGA U18；LVCMOS33；50MHz，周期 20ns。
+LED1：led[0]；输出；板载 LED1；FPGA M14；低电平点亮，和 LED2 交替闪烁。
+LED2：led[1]；输出；板载 LED2；FPGA M15；低电平点亮，和 LED1 交替闪烁。
+LED3：led[2]；输出；板载 LED3；FPGA K16；低电平点亮。
+      当前常亮条件：init_done && !init_error && dac_ready && !dac_error。
+LED4：led[3]；输出；板载 LED4；FPGA J16；当前固定为低，常亮。
+
+3. 当前供电和模拟连线
+ADS8688 模块模拟供电接 5V；数字接口按 3.3V 电平连接。
+MCP4725 VDD 接 3.3V，VSS 接公共地；当前程序假设 7 位地址 0x60。
+SDA、SCL 各用 2.2kΩ~4.7kΩ 电阻上拉至 3.3V（核对模块已有上拉）。
+AX7020、ADS8688、MCP4725 必须共地。
+MCP4725 VOUT 接 ADS8688 AIN0（模块 P2-4），不占 FPGA 数字引脚。
+AIN0 原来的接地或 3.3V 测试线应断开；当前固定采集 CH0。
+当前 OPA192、INA240、MOS 管偏置电路不属于本回环工程已验证的接线。
+
+4. 内部状态、触发与故障信号（通过 JTAG/ILA 查看，无额外 FPGA 外部引脚）
+probe0：ch_data[15:0]，最近完成的 ADC 实测码值。
+probe1：dac_applied[11:0]，收到 ACK 后发布的 DAC 写入码值。
+probe2：capture_tick，1 个系统时钟宽度，每 1ms 产生一次，用作捕获资格条件。
+probe3：sample_ms[31:0]，保存点的毫秒计数；用于计算实际时间间隔。
+probe4：init_done，ADS8688 初始化流程完成；还须结合 init_error 判断。
+probe5：init_error，ADS8688 初始化寄存器回读不匹配，错误保持至逻辑复位。
+probe6：dac_ready，DAC 已收到成功写入；失败时清零，成功重试后可重新置位。
+probe7：dac_error，I2C NACK 错误锁存，重试成功也不会自动清除。
+probe8：dac_busy，I2C 写事务正在进行。
+probe9：ch_valid，ADC 新数据完成脉冲。
+这些信号目前用于观察，不会自动切断外部电源或实现硬件保护。
+外部触发输入、过流/过温故障输入、急停、DPS 输出使能：均未实现、未分配引脚。
+
+5. DPS 电源模块通信定义与待确认项
+当前 RTL 没有 DPS USB 控制器或 UART 驱动，也没有 DPS 外部端口和引脚约束。
+尚未提供 DPS 具体型号、接口板和逻辑电平，因此无法给出已验证的 DPS 针脚。
+
+若后续选择 FPGA UART 控制，建议逻辑名称（仅名称建议，尚未实现）：
+dps_uart_tx：FPGA 输出，连接电源模块通信端 RX。
+dps_uart_rx：FPGA 输入，连接电源模块通信端 TX。
+GND：通信参考地，需按所选通信接口的隔离方式接线。
+两根 UART 信号的 J11 针号、FPGA 封装引脚、波特率和协议全部待确认。
+若接口是 RS-232/RS-485，需通过对应收发器，不能按 3.3V TTL 直接连接。
+
+若选择电脑 USB 控制 DPS，则 DPS 通过 USB 接电脑，通常无需新增 FPGA 引脚；
+软件协调 FPGA 与 DPS 的流程尚未实现。USB D+/D- 不等同于 UART TX/RX，
+不能直接接到上述 FPGA 普通 IO。
+
+6. 下载和捕获
+Program File 选择 program/dac_adc_loopback.bit。
+Debug Probes File 选择 program/dac_adc_loopback.ltx。
+在 Hardware Manager 的 Tcl Console 中执行本文件夹 scripts/capture_loopback.tcl。
+该脚本正常约 4.1 秒保存 4096 点，每个保存点实际间隔 1ms。
+ch_data 选择 Unsigned 和 Analog，Zoom Fit 后观察三角波。
+预期周期约 1.28s，0~3.3V 名义码值约 0x8000~0xA940。
+用户已经观察到 ADC 实测值随 DAC 输出下降后再上升；幅度、周期和精度尚未完整标定。
+
+7. 工程验证范围
+本资料工程从当前源码快照重新创建，原 ads8688_1.xpr 和原工程约束保持原样。
+已有 I2C/三角波/捕获资格仿真结果见原工程 DEBUGGING.md。
+新增资料工程的检查结果见 project_check.txt。
+既有 bit/ltx 来自先前非工程模式构建；重建工程的 bit/ltx 应配套使用。
+XDC 目前包含管脚、电平和主时钟；外部 SPI/I2C 输入输出延时尚未完整约束。
+
+8. PCB 到货前的多通道台架版本
+阶段 C 使用的多通道监视版本在上一级工程目录的 output/mos_adc_monitor 中，
+其源码为 rtl/mos_adc_monitor.v，构建脚本为 scripts/build_mos_monitor.tcl，
+捕获脚本为 scripts/capture_mos_monitor.tcl。它保留 ADS8688 八个通道的
+adc_ch0~adc_ch7 最近值，每1ms保存一次快照，用于逐路确认 J16 到 ADS8688
+AIN0~AIN7 的真实映射。该版本仍只产生低压 MCP4725 三角波，不控制 DPS 和 MOS。
+ADS8688 通道范围参数已支持：0=±10.24V、1=±5.12V、2=±2.56V、
+5=0~10.24V、6=0~5.12V。当前监视版本给低压正信号使用 code 6，给高压候选
+通道使用 code 0；最终范围需按实测信号和保护设计确认。
+阶段 C 的详细接线和安全顺序见 阶段C_无PCB台架联调步骤.txt。

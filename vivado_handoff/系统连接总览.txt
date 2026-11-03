@@ -1,0 +1,37 @@
+系统连接总览（给原理图设计使用）
+============================================================
+
+                         AX7020 FPGA
+                    xc7z020clg400-2
+                             |
+       +---------------------+---------------------+
+       |                                           |
+   SPI 3.3V                                      I2C 3.3V
+       |                                           |
+J11-3/4/5/6/7                                J11-9/10
+       |                                           |
+   ADS8688 模块                               MCP4725 模块
+   AVDD=5V                                    VDD=3.3V
+       |                                           |
+       | CH0/AIN0 <--------- VOUT <---------------+
+       |   P2-4
+       |
+   ch_data -> ILA/JTAG
+
+公共地：AX7020 GND、ADS8688 GND、MCP4725 VSS 必须相连。
+ADS8688 DAISY：模块端接GND，不回到FPGA。
+MCP4725 SDA/SCL：各自通过2.2kΩ~4.7kΩ上拉至3.3V，FPGA低电平开漏。
+
+当前已验证数字/回环路径：
+MCP4725 DAC码值 -> VOUT模拟电压 -> ADS8688 AIN0 -> SPI -> FPGA ch_data -> ILA
+
+计划中的MOS测试平台路径（当前未并入已验证Vivado顶层）：
+MCP4725/OPA192 -> VGS偏置 -> MOS栅极
+DPS/OPA192 -> VDS偏置 -> MOS漏极
+MOS源极/漏极采样电阻 -> INA240 -> ADS8688输入
+FPGA扫描DAC码值并记录ADC电压/电流 -> 上位机绘图
+
+DPS接口必须在型号确定后补入：
+电脑USB 或 DPS收发器 <-> dps_uart_tx/rx（如采用串口）
+dps_enable、dps_fault、ext_trigger_in、scan_done 的方向和电平待确认。
+USB D+/D- 不得直接连接 AX7020 普通LVCMOS33 IO。

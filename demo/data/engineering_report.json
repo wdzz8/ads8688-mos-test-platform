@@ -12,9 +12,9 @@
     "ila_marked_signals": true
   },
   "timing": {
-    "setup_WNS_ns": 11.446,
+    "setup_WNS_ns": 7.64,
     "setup_TNS_ns": 0.0,
-    "hold_WHS_ns": 0.053,
+    "hold_WHS_ns": 0.048,
     "hold_THS_ns": 0.0,
     "failing_endpoints": 0,
     "status": "PASS",

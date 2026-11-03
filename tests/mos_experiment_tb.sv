@@ -84,7 +84,11 @@ module mos_experiment_tb;
         rising  = 0;
         command = 0;
         sdo_value = 0;
-        frame_data = (frame >= 40 && frame < 72) ? 16'hffff : ((frame >= 12) ? conversion_data(frame) : 16'h0000);
+        // Delay the injected fault long enough to observe one low/high DAC
+        // transition before the PL safety fallback is exercised.  The ADC
+        // model's frame cadence is faster than the nominal 416 us row period,
+        // so start after roughly 470 frames rather than 140.
+        frame_data = (frame >= 470 && frame < 502) ? 16'hffff : ((frame >= 12) ? conversion_data(frame) : 16'h0000);
     end
 
     always @(posedge adc_sclk) begin
@@ -162,7 +166,7 @@ module mos_experiment_tb;
     end
 
     //======================================================================
-    integer rows=0, bad_rows=0, transitions=0;
+    integer rows=0, bad_rows=0, transitions=0, feature_events=0;
     reg [31:0] previous_timestamp=0;
     always @(negedge clk) if (dut.row_valid) begin
         rows=rows+1;
@@ -177,14 +181,24 @@ module mos_experiment_tb;
         end else bad_rows=bad_rows+1;
         if (dut.row_transition) transitions=transitions+1;
     end
+    always @(negedge clk) if (dut.feature_valid) begin
+        feature_events=feature_events+1;
+        if (dut.feature_event_samples!=8) $fatal(1,"Online feature window is not eight rows");
+        if (dut.feature_mean_ch7==0) $fatal(1,"Online feature mean missing");
+        if (dut.feature_var_ch7==0) $fatal(1,"Online feature variance missing");
+    end
     initial begin
         #130000000;
         if (rows<100 || bad_rows<4 || !dut.fault_latched) $fatal(1,"Missing sample/fault evidence");
-        if (i2c_writes<5 || transitions<2) $fatal(1,"Wave did not toggle");
-        if (written_code[0]!=256 || written_code[1]!=2816 || written_code[2]!=256)
-            $fatal(1,"Wrong DAC low/high order");
+        if (feature_events<1 || !dut.safe_gate_requested || !dut.safe_gate_zeroed || dut.fault_event_reason!=4'd1)
+            $fatal(1,"Missing online feature/safety evidence");
+        if (i2c_writes<2 || transitions<2) $fatal(1,"Wave did not toggle");
+        if (written_code[0]!=256 || written_code[1]!=2816 || written_code[2]!=0) begin
+            $display("DEBUG DAC codes=%0d,%0d,%0d writes=%0d safe_zeroed=%b fault=%b reason=%0d event_ts=%0d frame=%0d phase=%b wave=%b row_timeout=%0d feature_events=%0d", written_code[0], written_code[1], written_code[2], i2c_writes, dut.safe_gate_zeroed, dut.fault_latched, dut.fault_event_reason, dut.fault_event_timestamp, frame, dut.phase, dut.wave, dut.row_timeout_cycles, feature_events);
+            $fatal(1,"Wrong DAC low/high/safety-zero order");
+        end
         if (dut.init_error || dut.dac_error) $fatal(1,"Unexpected communication error");
-        $display("PASS: mos_experiment unaveraged sweeps, channel skew, host apply, DAC toggles, transition tags, FFFF rejection");
+        $display("PASS: mos_experiment unaveraged sweeps, online features, event latch, PL gate fallback, transition tags, FFFF rejection");
         $finish;
     end
 endmodule
